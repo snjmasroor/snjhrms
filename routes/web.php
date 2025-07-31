@@ -66,6 +66,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
     Route::delete('/branches/{id}', [BranchController::class, 'destroy'])->name('branch.destroy');
 
     Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
+    Route::get('/project/dashboard', [ProjectController::class, 'projectDashboard'])->name('project.dashboard');
+
 
 });
     Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
@@ -74,7 +76,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
 
 // HR Routes
 Route::middleware(['auth', 'role:hr'])->group(function () {
-    Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
     Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
 });
 
