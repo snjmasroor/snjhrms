@@ -15,7 +15,8 @@
                             </div>
                         </div>
                     </div>
-                </div> <!-- Row end  -->
+                </div> 
+                <!-- Row end  -->
                 <div class="row clearfix g-3">
                   <div class="col-sm-12">
                         <div class="card mb-3">
@@ -27,6 +28,7 @@
                                             <th>Department Head</th> 
                                             <th>Department Name</th> 
                                             <th>Employee UnderWork</th>   
+                                            <th>Status</th>   
                                             <th>Actions</th>  
                                         </tr>
                                     </thead>
@@ -45,6 +47,13 @@
                                            </td>
                                            <td>
                                                 {{ $department->employees_under_work }}
+                                           </td>
+                                           <td>
+                                                 @if($department->active)
+                                                      <span class="badge bg-success">Active</span>
+                                                @else
+                                                      <span class="badge bg-danger">Inactive</span>
+                                                @endif
                                            </td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -252,7 +261,7 @@
         
         @endsection
         @push('scripts')
-              <script src="{{asset('assets/bundles/dataTables.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/dataTables.bundle.js')}}"></script>
 
 
 <script>

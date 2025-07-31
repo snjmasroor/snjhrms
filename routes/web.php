@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\BranchController;
 
 Route::get('/', function () {
     if (auth()->check() && auth()->user()->role === 'admin') {
@@ -52,6 +53,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
     // Delete a department
     Route::delete('/departments/{id}/delete', [DepartmentController::class, 'destroy'])->name('departments.destroy');
     
+
+    // Branch
+    Route::get('/branch', [BranchController::class, 'index'])->name('branch');
+    Route::post('/branch', [BranchController::class, 'store'])->name('branch.store');
+    Route::get('/branch/{id}/edit', [BranchController::class, 'edit'])->name('branch.edit');
+    // Update branch
+    Route::post('/branch/update/{id}', [BranchController::class, 'update'])->name('branch.update');
+    // Delete branch
+    Route::delete('/branches/{id}', [BranchController::class, 'destroy'])->name('branch.destroy');
 
 });
     Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
