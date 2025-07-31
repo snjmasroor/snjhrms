@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('lastname')->nullable();
             $table->string('username')->unique()->nullable();
             $table->string('phone')->nullable();
+            $table->string('designation')->nullable();
             $table->string('image')->nullable();
             $table->text('device_token')->nullable();
             $table->bigInteger('flags')->default(0);

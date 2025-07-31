@@ -25,7 +25,7 @@
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse show" id="dashboard-Components">
                         <li><a class="ms-link active" href="{{route('admin.hr.dashboard')}}"> <span>Hr Dashboard</span></a></li>
-                        <li><a class="ms-link" href=""> <span>Project Dashboard</span></a></li>
+                        <li><a class="ms-link" href="{{route('admin.project.dashboard')}}"> <span>Project Dashboard</span></a></li>
                     </ul>
                 </li>
                 <li  class="collapsed">
@@ -101,6 +101,16 @@
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="app-Components">
                         <li><a class="ms-link" href="calendar.html"> <span>Calander</span></a></li>
+                        <li><a class="ms-link" href="chat.html"><span>Chat App</span></a></li>
+                    </ul>
+                </li>
+
+                <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#settings-Components" href="#">
+                        <i class="icofont-contrast"></i> <span>Settings</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse" id="settings-Components">
+                        <li><a class="ms-link" href="{{route('admin.permissions')}}"> <span>permission</span></a></li>
                         <li><a class="ms-link" href="chat.html"><span>Chat App</span></a></li>
                     </ul>
                 </li>

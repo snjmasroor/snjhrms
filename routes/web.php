@@ -68,6 +68,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
     Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
     Route::get('/project/dashboard', [ProjectController::class, 'projectDashboard'])->name('project.dashboard');
 
+    //settings
+    Route::get('/settings', [SettingController::class, 'projectDashboard'])->name('permissions');
+
+    
+
 
 });
     Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
