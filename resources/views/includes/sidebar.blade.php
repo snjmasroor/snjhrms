@@ -24,8 +24,8 @@
                         <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse show" id="dashboard-Components">
-                        <li><a class="ms-link active" href="index.html"> <span>Hr Dashboard</span></a></li>
-                        <li><a class="ms-link" href="project-dashboard.html"> <span>Project Dashboard</span></a></li>
+                        <li><a class="ms-link active" href="{{route('admin.hr.dashboard')}}"> <span>Hr Dashboard</span></a></li>
+                        <li><a class="ms-link" href="{{route('admin.project.dashboard')}}"> <span>Project Dashboard</span></a></li>
                     </ul>
                 </li>
                 <li  class="collapsed">
@@ -104,22 +104,8 @@
                         <li><a class="ms-link" href="chat.html"><span>Chat App</span></a></li>
                     </ul>
                 </li>
-                <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#extra-Components" href="#">
-                        <i class="icofont-code-alt"></i> <span>Other Pages</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                    <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="extra-Components">
-                        <li><a class="ms-link" href="charts.html"> <span>Apex Charts</span></a></li>
-                        <li><a class="ms-link" href="forms.html"><span>Forms Example</span></a></li>
-                        <li><a class="ms-link" href="table.html"> <span>Table Example</span></a></li>
-                        <li><a class="ms-link" href="review.html"><span>Reviews Page</span></a></li>
-                         <li><a class="ms-link" href="icon.html"><span>Icons</span></a></li>
-                        <li><a class="ms-link" href="contact.html"><span>Contact</span></a></li>
-                        <li><a class="ms-link" href="widgets.html"><span>Widgets</span></a></li>
-                        <li><a class="ms-link" href="todo-list.html"><span>Todo-List</span></a></li>
-                    </ul>
-                </li>
-                <li><a class="m-link" href="ui-elements/ui-alerts.html"><i class="icofont-paint"></i> <span>UI Components</span></a></li>
+                
+                
             </ul>
 
             

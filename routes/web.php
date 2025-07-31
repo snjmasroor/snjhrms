@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ProjectController;
+
 
 Route::get('/', function () {
     if (auth()->check() && auth()->user()->role === 'admin') {
@@ -63,6 +65,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
     // Delete branch
     Route::delete('/branches/{id}', [BranchController::class, 'destroy'])->name('branch.destroy');
 
+    Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
+
 });
     Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
 
@@ -70,6 +74,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
 
 // HR Routes
 Route::middleware(['auth', 'role:hr'])->group(function () {
+    Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
     Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
 });
 
