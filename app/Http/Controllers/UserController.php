@@ -8,6 +8,11 @@ use Illuminate\Support\Carbon;
 use App\Models\Attendance;
 class UserController extends Controller
 {
+
+    public function index () {
+        return view('admin.employees.index');
+    }
+
    public function test()
     {
          $now = Carbon::now();

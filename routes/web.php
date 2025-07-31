@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DepartmentController;
 
 Route::get('/', function () {
     if (auth()->check() && auth()->user()->role === 'admin') {
@@ -36,6 +37,22 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('dashboard');
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendence');
+    
+    //Employees
+    Route::get('/employees', [UserController::class, 'index'])->name('employees');
+    Route::post('/employees', [UserController::class, 'store'])->name('employees.store');
+
+
+    // Department
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('department');
+    Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+    Route::get('/departments/{id}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
+    // Update a department
+    Route::post('/departments/{id}/update', [DepartmentController::class, 'update'])->name('departments.update');
+    // Delete a department
+    Route::delete('/departments/{id}/delete', [DepartmentController::class, 'destroy'])->name('departments.destroy');
+    
+
 });
     Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
 

@@ -58,13 +58,13 @@
                             class="icofont-users-alt-5"></i> <span>Employees</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="emp-Components">
-                        <li><a class="ms-link" href="members.html"> <span>Members</span></a></li>
+                        <li><a class="ms-link" href="{{route('admin.employees')}}"> <span>Members</span></a></li>
                         <li><a class="ms-link" href="employee-profile.html"> <span>Members Profile</span></a></li>
                         <li><a class="ms-link" href="holidays.html"> <span>Holidays</span></a></li>
                         <li><a class="ms-link" href="attendance-employees.html"> <span>Attendance Employees</span></a></li>
-                        <li><a class="ms-link" href="attendance.html"> <span>Attendance</span></a></li>
+                        <li><a class="ms-link" href="{{route('admin.attendence')}}"> <span>Attendance</span></a></li>
                         <li><a class="ms-link" href="leave-request.html"> <span>Leave Request</span></a></li>
-                        <li><a class="ms-link" href="department.html"> <span>Department</span></a></li>
+                        <li><a class="ms-link" href="{{route('admin.department')}}"> <span>Department</span></a></li>
                         <li><a class="ms-link" href="loan.html"> <span>Loan</span></a></li>
                     </ul>
                 </li>
