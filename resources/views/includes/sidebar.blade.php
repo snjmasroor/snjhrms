@@ -25,7 +25,7 @@
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse show" id="dashboard-Components">
                         <li><a class="ms-link active" href="{{route('admin.hr.dashboard')}}"> <span>Hr Dashboard</span></a></li>
-                        <li><a class="ms-link" href="{{route('admin.project.dashboard')}}"> <span>Project Dashboard</span></a></li>
+                        <li><a class="ms-link" href=""> <span>Project Dashboard</span></a></li>
                     </ul>
                 </li>
                 <li  class="collapsed">
