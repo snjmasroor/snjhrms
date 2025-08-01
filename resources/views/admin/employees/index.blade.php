@@ -486,134 +486,163 @@
         </div>
        </div>
 
-        <!-- Create Employee-->
-        <form action="{{ route('admin.employees.store') }}" method="POST" enctype="multipart/form-data">
-             @csrf
-      <div class="modal fade" id="createemp" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-                  <div class="modal-content">
-                  <div class="modal-header">
-                        <h5 class="modal-title fw-bold" id="createprojectlLabel">Add Employee</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                        <div class="mb-3">
-                              <label class="form-label">Employee Name</label>
-                              <input type="text" name="name" class="form-control" placeholder="Full Name">
+       <!-- Success Message -->
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+<!-- Create Employee Modal Form -->
+<form action="{{ route('admin.employees.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="modal fade" id="createemp" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Add Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    {{-- Name --}}
+                    <div class="mb-3">
+                        <label class="form-label">Employee Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+
+                    {{-- Branch --}}
+                    <div class="mb-3">
+                        <label class="form-label">Branch</label>
+                        <select name="branch_id" class="form-select" required>
+                            <option value="">Select Branch</option>
+                            @foreach($branches as $branch)
+                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Profile Picture --}}
+                    <div class="mb-3">
+                        <label class="form-label">Employee Profile</label>
+                        <input class="form-control" type="file" name="profile_picture">
+                    </div>
+
+                    {{-- Joining Date --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6">
+                            <label class="form-label">Joining Date</label>
+                            <input type="date" name="joining_date" class="form-control" required>
                         </div>
-                        <div class="mb-3">
-                              <label class="form-label">Branch</label>
-                              <select name="branch" class="form-select" id="branch">
-                                    <option value="" >Select Branch</option>
-                                    <option value="PECH">PECH</option>
-                                    <option value="DHA">DHA</option>
-                              </select>
+                        <div class="col-sm-6">
+                            <label class="form-label">Generated Employee ID</label>
+                            <input type="text" class="form-control" value="Auto-generated" readonly>
                         </div>
-                        <div class="mb-3">
-                              <label class="form-label">Employee Profile</label>
-                              <input class="form-control" type="file" name="profile_picture">
+                    </div>
+
+                    {{-- Username / Password --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control">
                         </div>
-                        <div class="row g-3 mb-3">
-                              <div class="col-sm-6">
-                              <label class="form-label">Employee ID</label>
-                              <input type="text" name="employee_id" id="employee_id" class="form-control" placeholder="Employee ID" readonly>
-                              </div>
-                              <div class="col-sm-6">
-                              <label class="form-label">Joining Date</label>
-                              <input type="date" name="joining_date" class="form-control">
-                              </div>
+                        <div class="col">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" required>
                         </div>
-                        <div class="row g-3 mb-3">
-                              <div class="col">
-                              <label class="form-label">User Name</label>
-                              <input type="text" name="username" class="form-control" placeholder="Username">
-                              </div>
-                              <div class="col">
-                              <label class="form-label">Password</label>
-                              <input type="password" name="password" class="form-control" placeholder="Password">
-                              </div>
+                    </div>
+
+                    {{-- Email / Phone --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control">
                         </div>
-                        <div class="row g-3 mb-3">
-                              <div class="col">
-                              <label class="form-label">Email</label>
-                              <input type="email" name="email" class="form-control" placeholder="Email">
-                              </div>
-                              <div class="col">
-                              <label class="form-label">Phone</label>
-                              <input type="text" name="phone" class="form-control" placeholder="Phone">
-                              </div>
+                        <div class="col">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control">
                         </div>
-                        <div class="row g-3 mb-3">
-                              <div class="col">
-                              <label class="form-label">Department</label>
-                              <select class="form-select" name="department">
-                                    <option value="Web Development">Web Development</option>
-                                    <option value="IT Management">IT Management</option>
-                                    <option value="Marketing">Marketing</option>
-                              </select>
-                              </div>
-                              <div class="col">
-                              <label class="form-label">Designation</label>
-                              <select class="form-select" name="designation">
-                              <option value="HR Assistant">HR Assistant</option>
-                              <option value="WordPress Developer">WordPress Developer</option>
-                              <option value="Sales Manager">Sales Manager</option>
-                              <option value="Sales Agent">Sales Agent</option>
-                              <option value="Project Manager">Project Manager</option>
-                              <option value="IT Administrator">IT Administrator</option>
-                              <option value="DC Manager">DC Manager</option>
-                              <option value="DC Agent">DC Agent</option>
-                              <option value="QA Manager">QA Manager</option>
-                              <option value="Shadow Agent">Shadow Agent</option>
-                              <option value="QA Agent">QA Agent</option>
-                              <option value="Trainer">Trainer</option>
-                              <option value="Fixer">Fixer</option>
-                              <option value="Team Leader">Team Leader</option>
-                              <option value="Agent">Agent</option>
-                              </select>
-                              </div>
+                    </div>
+
+                    {{-- Department / Designation --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col">
+                            <label class="form-label">Department</label>
+                            <select name="department_id" class="form-select" required>
+                                <option value="">Select Department</option>
+                                @foreach($departments as $department)
+                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="mb-3">
-                              <label class="form-label">Description (optional)</label>
-                              <textarea class="form-control" name="description" rows="3"></textarea>
+                        <div class="col">
+                            <label class="form-label">Designation</label>
+                            <select class="form-select" name="designation">
+                                <option value="HR Assistant">HR Assistant</option>
+                                <option value="Team Leader">Team Leader</option>
+                                <option value="Developer">Developer</option>
+                                <option value="Sales Agent">Sales Agent</option>
+                                <option value="Agent">Agent</option>
+                            </select>
                         </div>
-                  </div>
-                  <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                  </div>
-                  </div>
+                    </div>
+
+                    {{-- Description --}}
+                    <div class="mb-3">
+                        <label class="form-label">Description (optional)</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+
+                    {{-- Permissions --}}
+                    @php
+                        $actions = ['view', 'create', 'write', 'edit', 'delete', 'import', 'export'];
+                    @endphp
+                    <div class="table-responsive">
+                            <table class="table table-striped custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Permission</th>
+                                        @foreach ($actions as $action)
+                                            <th class="text-center text-capitalize">{{ $action }}</th>
+                                        @endforeach
+                            
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     @foreach ($groupedPermissions as $module => $actionSet)
+                                     <tr>
+                                        <td class="fw-bold text-capitalize">{{ str_replace('_', ' ', $module) }}</td>
+                                        @foreach ($actions as $action)
+                                            <td class="text-center">
+                                                @php
+                                                    $permissionName = $actionSet[$action] ?? null;
+                                                @endphp
+
+                                                @if ($permissionName)
+                                                    <input type="checkbox"
+                                                        class="form-check-input"
+                                                        name="permissions[]"
+                                                        value="{{ $permissionName }}"
+                                                        id="{{ $permissionName }}">
+                                                @else
+                                                    <input type="checkbox" class="form-check-input" disabled>
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+
             </div>
-      </div>
-      </form>
-
-        @endsection
-
-        @push('scripts')
-              <script>
-                  document.addEventListener('DOMContentLoaded', function () {
-                  const branchSelect = document.getElementById('branch');
-                  const employeeIdField = document.getElementById('employee_id');
-
-                  function generateEmployeeID() {
-                        const branch = branchSelect.value || 'BRANCH';
-                        const today = new Date();
-                        const dateStr = today.getFullYear().toString() +
-                              String(today.getMonth() + 1).padStart(2, '0') +
-                              String(today.getDate()).padStart(2, '0');
-                        const randomNum = Math.floor(100 + Math.random() * 900); // random 3-digit number
-                        const employeeId = `${branch}-${dateStr}-${randomNum}`;
-                        employeeIdField.value = employeeId;
-                  }
-
-                  // Auto-generate when modal is shown
-                  const modal = document.getElementById('createemp');
-                  modal.addEventListener('shown.bs.modal', function () {
-                        generateEmployeeID();
-                  });
-
-                  // Also re-generate when branch changes
-                  branchSelect.addEventListener('change', generateEmployeeID);
-                  });
-                  </script>
-        @endpush
+        </div>
+    </div>
+</form>
+@endsection
