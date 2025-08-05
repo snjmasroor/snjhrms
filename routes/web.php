@@ -12,13 +12,13 @@ use App\Http\Controllers\ProjectController;
 
 Route::get('/', function () {
     if (auth()->check() && auth()->user()->role === 'admin') {
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('dashboard');
     }
     elseif (auth()->check() && auth()->user()->role === 'hr') {
-        return redirect()->route('hr.dashboard');
+        return redirect()->route('dashboard');
     }
     elseif (auth()->check() && auth()->user()->role === 'manager') {
-        return redirect()->route('manager.dashboard');
+        return redirect()->route('dashboard');
     }
     elseif (auth()->check() && auth()->user()->role === 'employee') {
         return redirect()->route('employee.dashboard');
@@ -38,8 +38,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('dashboard');
-    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendence');
+    
     
     //Employees
     Route::get('/employees', [UserController::class, 'index'])->name('employees');
@@ -75,14 +74,65 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
 
 
 });
-    Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
 
-
-
-// HR Routes
-Route::middleware(['auth', 'role:hr'])->group(function () {
-    Route::get('/hr/dashboard', [DashboardController::class, 'hrDashboard'])->name('hr.dashboard');
+Route::middleware(['auth', 'permission:view.dashboard'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('dashboard');
 });
+
+Route::middleware(['auth'])->group(function () {
+
+    // View
+    Route::middleware('permission:view.attendance')
+        ->get('/attendance', [AttendanceController::class, 'index'])
+        ->name('attendance.index');
+
+    // Create
+    Route::middleware('permission:create.attendance')
+        ->get('/attendance/create', [AttendanceController::class, 'create'])
+        ->name('attendance.create');
+
+    // Store (write)
+    Route::middleware('permission:write.attendance')
+        ->post('/attendance', [AttendanceController::class, 'store'])
+        ->name('attendance.store');
+
+    // Edit
+    Route::middleware('permission:edit.attendance')
+        ->get('/attendance/{attendance}/edit', [AttendanceController::class, 'edit'])
+        ->name('attendance.edit');
+
+    // Update
+    Route::middleware('permission:edit.attendance')
+        ->put('/attendance/{attendance}', [AttendanceController::class, 'update'])
+        ->name('attendance.update');
+
+    // Delete
+    Route::middleware('permission:delete.attendance')
+        ->delete('/attendance/{attendance}', [AttendanceController::class, 'destroy'])
+        ->name('attendance.destroy');
+
+    // Export
+    Route::middleware('permission:export.attendance')
+        ->get('/attendance/export', [AttendanceController::class, 'export'])
+        ->name('attendance.export');
+
+    // Import (form + handle)
+    Route::middleware('permission:import.attendance')
+        ->get('/attendance/import', [AttendanceController::class, 'importForm'])
+        ->name('attendance.import.form');
+
+    Route::middleware('permission:import.attendance')
+        ->post('/attendance/import', [AttendanceController::class, 'handleImport'])
+        ->name('attendance.import.handle');
+
+});
+
+
+
+Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
+
+
+
 
 // Manager Routes
 Route::middleware(['auth', 'role:manager'])->group(function () {

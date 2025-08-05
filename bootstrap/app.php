@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
          $middleware->alias([
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
+          'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+          'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

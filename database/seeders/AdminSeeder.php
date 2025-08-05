@@ -11,50 +11,66 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        // Define sidebar permissions
-        $permissions = [
-            'view.dashboard',
-            'view.projects',
-            'view.tasks',
-            'view.chat',
-            'view.estimates',
-            'view.invoices',
-            'view.timesheets',
-            'view.employees',
-            'view.attendance',
-            'view.payroll',
-            'view.departments',
-            'view.branches',
-            'view.leaves',
-            'view.recruitment',
-            'view.reports',
-            'view.settings',
-            'view.roles',
-            'view.permissions',
-            'view.teams',
+        $modules = [
+            'dashboard',
+            'attendance',
+            'absent',
+            'ticket',
+            'calender',
+            'employees',
+            'payroll',
+            'inventory',
+            'settings',
+            'departments',
+            'branches',
+            'leaves',
+            'recruitment',
+            'reports',
+            'roles',
+            'permissions',
+            'teams',
+            'notifications',
+            'announcements',
+            'payments',
+            'users',
         ];
+        // Define standard actions
+        $actions = ['view', 'create', 'write', 'edit', 'delete', 'import', 'export'];
 
-        // Create permissions if they don't exist
-        foreach ($permissions as $permission) {
+        // Generate permissions
+        $allPermissions = [];
+
+        foreach ($modules as $module) {
+            foreach ($actions as $action) {
+                $allPermissions[] = "{$action}.{$module}";
+            }
+        }
+
+        // Create each permission if it doesn't exist
+        foreach ($allPermissions as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
         }
 
-        // Create admin role and assign all sidebar permissions
+        // Create admin role if not exists
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
-        $adminRole->syncPermissions(Permission::whereIn('name', $permissions)->get());
 
-        // Create admin user
+        // Assign all permissions to admin
+        $adminRole->syncPermissions(Permission::whereIn('name', $allPermissions)->get());
+
+        // Create admin user if not exists
         $admin = User::firstOrCreate(
             ['email' => 'admin@example.com'],
             [
                 'name' => 'Admin User',
-                'password' => Hash::make('password'), // Change in production
+                'password' => Hash::make('password'),
                 'email_verified_at' => now(),
                 'role' => 'admin',
             ]
         );
 
-        // Assign admin role
+        // Assign role to admin
         $admin->assignRole($adminRole);
+
+
     }
 }

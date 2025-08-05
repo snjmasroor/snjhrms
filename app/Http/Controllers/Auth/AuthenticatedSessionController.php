@@ -29,16 +29,19 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
+        $role = $user->getRoleNames()->first(); // get the first role name
 
-        if ($user->role == 'admin') {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->role == 'hr') {
-            return redirect()->route('hr.dashboard');
-        } elseif ($user->role == 'manager') {
-            return redirect()->route('manager.dashboard');
-        } else {
+    switch ($role) {
+        case 'admin':
+            return redirect()->route('dashboard');
+        case 'hr':
+            return redirect()->route('dashboard');
+        case 'manager':
+            return redirect()->route('dashboard');
+        default:
             return redirect()->route('employee.dashboard');
-        }
+    }
+        // return redirect()->intended('dashboard'); // Redirect to intended URL or dashboard
     }
 
     /**

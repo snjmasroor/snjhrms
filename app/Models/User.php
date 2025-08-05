@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Concerns\Flagable;
+// use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
@@ -17,17 +19,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $appends = ['active', 'admin', 'hr', 'manager', 'employee'];
+    protected $appends = ['active'];
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'phone', 'username', 'password',
+        'branch_id', 'department_id', 'joining_date', 'profile_picture'
+        // no need to include 'employee_id' since it's auto-set
     ];
     public const FLAG_ACTIVE = 1;
-    public const FLAG_ADMIN = 2;
-    public const FLAG_HR = 4;
-    public const FLAG_MANAGER = 8;
-    public const FLAG_EMPLOYEE = 16;
+   
 
     /**
      * The attributes that should be hidden for serialization.
@@ -56,19 +55,19 @@ class User extends Authenticatable
         return ($this->flags & self::FLAG_ACTIVE) == self::FLAG_ACTIVE;
     }
 
-    public function getAdminAttribute() {
-        return ($this->flags & self::FLAG_ADMIN) == self::FLAG_ADMIN;
+  
+
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            $lastEmployee = static::orderBy('employee_id', 'desc')->first();
+
+            $user->employee_id = $lastEmployee && $lastEmployee->employee_id >= 1000
+                ? $lastEmployee->employee_id + 1
+                : 1000;
+        });
     }
 
-    public function getHrAttribute() {
-        return ($this->flags & self::FLAG_HR) == self::FLAG_HR;
-    }
+   
 
-    public function getManagerAttribute() {
-        return ($this->flags & self::FLAG_MANAGER) == self::FLAG_MANAGER;
-    }
-
-    public function getEmployeeAttribute() {
-        return ($this->flags & self::FLAG_EMPLOYEE) == self::FLAG_EMPLOYEE;
-    }
 }

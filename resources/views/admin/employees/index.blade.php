@@ -573,6 +573,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        @if (auth()->user()->hasRole('hr') || auth()->user()->hasRole('manager'))
                         <div class="col">
                             <label class="form-label">Designation</label>
                             <select class="form-select" name="designation">
@@ -583,6 +584,18 @@
                                 <option value="Agent">Agent</option>
                             </select>
                         </div>
+                        @elseif (auth()->user()->hasRole('admin'))
+                        <div class="col">
+                            <label for="role" class="form-label">Select Role</label>
+                            <select name="role" class="form-select" required>
+                                <option value="">-- Select Role --</option>
+                                <option value="manager">Manager</option>
+                                <option value="hr">HR</option>
+                                <option value="employee">Employee</option>
+                            </select>
+                        </div>
+                        @endif
+
                     </div>
 
                     {{-- Description --}}
