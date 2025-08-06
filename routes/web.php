@@ -87,9 +87,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('attendance.index');
 
     // Create
-    Route::middleware('permission:create.attendance')
-        ->get('/attendance/create', [AttendanceController::class, 'create'])
-        ->name('attendance.create');
+    Route::middleware('permission:create.attendance')->get('/attendance/create', [AttendanceController::class, 'create'])->name('attendance.create');
 
     // Store (write)
     Route::middleware('permission:write.attendance')
@@ -129,7 +127,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-Route::post('/new-test', [AttendanceController::class, 'test'])->name('excel.process-read');
+Route::get('/new-test', [AttendanceController::class, 'test'])->name('attendance.test');
 
 
 
