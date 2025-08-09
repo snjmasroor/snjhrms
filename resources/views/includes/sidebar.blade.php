@@ -108,7 +108,7 @@
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="payroll-Components">
                         <li>
-                            <a class="ms-link" href="{{ route('payroll.salaryslip') }}">
+                            <a class="ms-link" href="{{-- route('payroll.salaryslip') --}}">
                                 <span>Employee Salary</span>
                             </a>
                         </li>
