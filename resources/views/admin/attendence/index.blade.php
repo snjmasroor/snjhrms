@@ -67,17 +67,24 @@
             <span class="fw-bold small">{{ $employee->name }}</span>
         </td>
 
-       @for($day = 1; $day <= $daysInMonth; $day++)
+      @for($day = 1; $day <= $daysInMonth; $day++)
     @php
         $date = \Carbon\Carbon::createFromDate($year, $month, $day);
         $dayName = $date->format('l');
 
+        // Punch-in record (type 0)
         $inRecord = $records->first(function($rec) use ($date) {
             return \Carbon\Carbon::parse($rec->record_time)->isSameDay($date) && $rec->type == 0;
         });
 
+        // Punch-out record (type 1)
+        $outRecord = $records->first(function($rec) use ($date) {
+            return \Carbon\Carbon::parse($rec->record_time)->isSameDay($date) && $rec->type == 1;
+        });
+
         $icon = ''; 
         $tooltip = ''; 
+        $hoursWorked = null;
 
         if ($dayName === 'Sunday') {
             // Sunday off
@@ -85,30 +92,42 @@
             $tooltip = $date->toDateString() . ' - Sunday';
         } elseif ($inRecord) {
             $inTime = \Carbon\Carbon::parse($inRecord->record_time);
+            $outTime = $outRecord ? \Carbon\Carbon::parse($outRecord->record_time) : null;
 
             // Punch-in thresholds
-            $onTimeStart = $date->copy()->setTime(18, 30);
-            $onTimeEnd   = $date->copy()->setTime(19, 2);
-            $lateStart   = $date->copy()->setTime(19, 3);
-            $halfDayStart= $date->copy()->setTime(19, 15);
+            $onTimeStart  = $date->copy()->setTime(18, 30);
+            $onTimeEnd    = $date->copy()->setTime(19, 2);
+            $lateStart    = $date->copy()->setTime(19, 3);
+            $halfDayStart = $date->copy()->setTime(19, 15);
 
             if ($inTime->between($onTimeStart, $onTimeEnd)) {
-                // On time
                 $icon = 'icofont-check-circled text-success';
                 $tooltip = $date->toDateString() . ' - On Time at ' . $inTime->format('H:i');
             } elseif ($inTime->between($lateStart, $halfDayStart)) {
-                // Late
                 $icon = 'icofont-wall-clock text-warning';
                 $tooltip = $date->toDateString() . ' - Late at ' . $inTime->format('H:i');
             } elseif ($inTime->gt($halfDayStart)) {
-                // Half day
                 $icon = 'icofont-minus-circle text-primary';
                 $tooltip = $date->toDateString() . ' - Half Day at ' . $inTime->format('H:i');
             } else {
-                // Before shift start
                 $icon = 'icofont-check-circled text-success';
                 $tooltip = $date->toDateString() . ' - Early at ' . $inTime->format('H:i');
             }
+
+            // Append punch-out time and hours worked
+            if ($outTime) {
+    // If punch-out is before punch-in, assume it's the next day
+    if ($outTime->lessThan($inTime)) {
+                $outTime->addDay();
+        }
+
+        $tooltip .= ' | Out at ' . $outTime->format('H:i');
+        $hoursWorked = $inTime->diffInMinutes($outTime) / 60; // hours in decimal
+        $tooltip .= ' | ' . number_format($hoursWorked, 2) . ' hrs';
+        } else {
+        $tooltip .= ' | Out: N/A';
+        }
+
         } else {
             // Absent
             $icon = 'icofont-close-circled text-danger';
@@ -120,6 +139,8 @@
         <i class="{{ $icon }}"></i>
     </td>
 @endfor
+
+
     </tr>
 @endforeach
            

@@ -49,7 +49,7 @@
                   <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#branchedit{{ $branch->id }}">
                     <i class="icofont-edit text-success"></i>
                   </button>
-                  <form action="{{ route('admin.branch.destroy', $branch->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                  <form action="{{ route('branches.destroy', $branch->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-outline-secondary">
@@ -83,7 +83,7 @@
         <div class="modal fade" id="depadd" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
                 <div class="modal-content">
-                    <form action="{{ route('admin.branch.store') }}" method="POST">
+                    <form action="{{ route('branches.store') }}" method="POST">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title fw-bold" id="depaddLabel">Add Branch</h5>

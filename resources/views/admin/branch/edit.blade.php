@@ -1,7 +1,7 @@
 <div class="modal fade" id="editBranchModal{{ $branch->id }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
         <div class="modal-content">
-            <form action="{{ route('admin.branch.update', $branch->id) }}" method="POST">
+            <form action="{{ route('branches.update', $branch->id) }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold">Edit Branch</h5>

@@ -3,7 +3,7 @@
 <div class="modal fade" id="depedit{{ $department->id }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
         <div class="modal-content">
-            <form action="{{ route('admin.departments.update', $department->id) }}" method="POST">
+            <form action="{{ route('departments.update', $department->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 

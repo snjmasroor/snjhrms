@@ -50,34 +50,72 @@
                             class="icofont-users-alt-5"></i> <span>Employees Management</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="emp-Components">
-                        <li><a class="ms-link" href="{{route('employees')}}"> <span>Employees</span></a></li>
-                        <li><a class="ms-link" href="{{route('admin.branch')}}"> <span>Branches</span></a></li>
-                        <li><a class="ms-link" href="{{route('admin.department')}}"> <span>Department</span></a></li>
+                     @can('view.employees')
+                        <li>
+                            <a class="ms-link" href="{{ route('employees') }}">
+                                <span>Employees</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('view.branches')
+                        <li>
+                            <a class="ms-link" href="{{ route('branches.index') }}">
+                                <span>Branches</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('view.departments')
+                        <li>
+                            <a class="ms-link" href="{{ route('departments.index') }}">
+                                <span>Department</span>
+                            </a>
+                        </li>
+                        @endcan
                         <li><a class="ms-link" href="attendance-employees.html"> <span>Attendance Employees</span></a></li>
                         <li><a class="ms-link" href="leave-request.html"> <span>Leave Request</span></a></li>
                         <li><a class="ms-link" href="profile.html"> <span>Current Employee Profile</span></a></li>
                     </ul>
                 </li>
                
-                <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#client-Components" href="#"><i
-                            class="icofont-user-male"></i> <span>Announcement</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                    <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="client-Components">
-                        <li><a class="ms-link" href="profile.html"> <span>Calender</span></a></li>
-                        <li><a class="ms-link" href="profile.html"> <span>Announcements</span></a></li>
-                    </ul>
-                </li>
+                @can('view.announcements')
+<li class="collapsed">
+    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#announcement-menu" href="#">
+        <i class="icofont-megaphone"></i> 
+        <span>Announcements</span> 
+        <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span>
+    </a>
+    <ul class="sub-menu collapse" id="announcement-menu">
+        @can('view.announcements')
+        <li><a class="ms-link" href="{{ route('announcements.index') }}"> <span>All Announcements</span></a></li>
+        @endcan
+        @can('create.announcements')
+        <li><a class="ms-link" href="{{ route('announcements.create') }}"> <span>Add Announcement</span></a></li>
+        @endcan
+    </ul>
+</li>
+@endcan
                
 
+               @can('view.payroll')
                 <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#payroll-Components" href="#"><i
-                            class="icofont-users-alt-5"></i> <span>Payroll</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#payroll-Components" href="#">
+                        <i class="icofont-users-alt-5"></i> 
+                        <span>Payroll</span> 
+                        <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span>
+                    </a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="payroll-Components">
-                        <li><a class="ms-link" href="salaryslip.html"><span>Employee Salary</span> </a></li>
+                        <li>
+                            <a class="ms-link" href="{{ route('payroll.salaryslip') }}">
+                                <span>Employee Salary</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
+                @endcan
+
                
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-Componentsone" href="#"><i
@@ -100,7 +138,7 @@
                         <li><a class="ms-link" href="chat.html"><span>Chat App</span></a></li>
                     </ul>
                 </li>
-
+        @can('view.settings')
                <li class="collapsed">
                     <a class="m-link d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#settings-Components" href="javascript:void(0)">
                     <i class="icofont-contrast me-2"></i> <span>Settings</span>
@@ -112,7 +150,7 @@
                     <li><a class="ms-link" href="chat.html"><span>Employee settings</span></a></li>
                     </ul>
                 </li>
-                
+        @endcan
                 
             </ul>
 
