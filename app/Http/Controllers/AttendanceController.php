@@ -14,8 +14,35 @@ use App\Http\Requests\AttendanceRequest;
 class AttendanceController extends Controller
 {
     public function index() {
+        
+      $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd   = Carbon::now()->endOfMonth();
 
-        return view('admin.attendence.index');
+        $year  = Carbon::now()->year;
+        $month = Carbon::now()->month;
+
+        $attendances = Attendance::with([
+                'user' => function ($query) {
+                    $query->select('id', 'employee_id', 'name')
+                        ->with(['roles:id,name']); // only load role name
+                }
+            ])
+            ->select('id', 'user_id', 'type', 'state', 'record_time') // only necessary fields
+            ->whereBetween('record_time', [$monthStart, $monthEnd])
+            ->get()
+            ->filter(function ($attendance) {
+                $user = $attendance->user;
+                if (!$user) return false;
+
+                // Exclude superadmin
+                return !$user->roles->contains('name', 'superadmin');
+            })
+            ->groupBy('user.employee_id');
+
+        $daysInMonth = Carbon::now()->daysInMonth;
+
+        return view('admin.attendence.index', compact('attendances', 'daysInMonth', 'year', 'month'));
+
     }
     
     public function create() {

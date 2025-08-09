@@ -68,6 +68,11 @@ class User extends Authenticatable
         });
     }
 
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'user_id', 'employee_id');
+    }
+
    
 
 }

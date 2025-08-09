@@ -46,4 +46,9 @@ class Attendance extends Model
       ];
       return $types[$this->type] ?? 'Unknown';
    }
+
+   public function user()
+   {
+      return $this->belongsTo(User::class, 'user_id', 'employee_id');
+   }
 }
