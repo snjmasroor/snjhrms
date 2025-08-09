@@ -9,6 +9,9 @@ class Attendance extends Model
 {
     use Flagable;
     protected $appends = ['imported'];
+    protected $casts = [
+      'record_time' => 'datetime',
+   ];
     protected $fillable = ['uid', 'user_id', 'state', 'type', 'record_time', 'device_ip'];
 
    public const FLAG_IMPORTED = 1;

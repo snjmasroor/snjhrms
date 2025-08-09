@@ -50,7 +50,7 @@
                             class="icofont-users-alt-5"></i> <span>Employees Management</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="emp-Components">
-                        <li><a class="ms-link" href="{{route('admin.employees')}}"> <span>Employees</span></a></li>
+                        <li><a class="ms-link" href="{{route('employees')}}"> <span>Employees</span></a></li>
                         <li><a class="ms-link" href="{{route('admin.branch')}}"> <span>Branches</span></a></li>
                         <li><a class="ms-link" href="{{route('admin.department')}}"> <span>Department</span></a></li>
                         <li><a class="ms-link" href="attendance-employees.html"> <span>Attendance Employees</span></a></li>

@@ -27,6 +27,10 @@ class UserController extends Controller
     public function index () {
         $branches = Branch::whereRaw('`flags` & ? = ?', [Branch::FLAG_ACTIVE, Branch::FLAG_ACTIVE])->orderBy('id', 'desc')->get();
         $departments = Department::whereRaw('`flags` & ? = ?', [Department::FLAG_ACTIVE, Department::FLAG_ACTIVE])->orderBy('id', 'desc')->get();
+        $users = User::whereRaw('`flags` & ? = ?', [User::FLAG_ACTIVE, User::FLAG_ACTIVE])->whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'admin'); // hide superadmin
+        })
+        ->orderBy('id', 'desc')->get();
         // Fetch all permissions and group by module (prefix)
         $permissions = Permission::all();
 
@@ -40,7 +44,7 @@ class UserController extends Controller
         }
         $groupedPermissions;
 
-        return view('admin.employees.index', compact('branches', 'departments', 'groupedPermissions'));
+        return view('admin.employees.index', compact('branches', 'departments', 'groupedPermissions', 'users'));
     }
     public function store(Request $request)
     {

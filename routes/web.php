@@ -41,8 +41,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(
     
     
     //Employees
-    Route::get('/employees', [UserController::class, 'index'])->name('employees');
-    Route::post('/employees', [UserController::class, 'store'])->name('employees.store');
+    
+   
 
 
     // Department
@@ -122,6 +122,16 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('permission:import.attendance')
         ->post('/attendance/import', [AttendanceController::class, 'handleImport'])
         ->name('attendance.import.handle');
+
+    Route::middleware('permission:view.users')
+        ->get('/employees', [UserController::class, 'index'])
+        ->name('employees');
+
+    Route::middleware('permission:create.users')
+        ->post('/employees', [UserController::class, 'store'])
+        ->name('employees.store');
+
+
 
 });
 
